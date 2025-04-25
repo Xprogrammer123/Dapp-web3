@@ -5,7 +5,7 @@ import TypingEffect from '@/components/TypingEffect';
 import CryptoCarousel from '@/components/CryptoCarousel';
 import CryptoChart from '@/components/CryptoChart';
 import Globe from '@/components/Globe';
-import Testimonials from '@/components/Testimonials';
+import RollingGallery from '@/components/RollingGallery';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -27,6 +27,9 @@ const Index = () => {
     'https://blockchaindappc.pages.dev/assets/images/phantom.jpg',
     'https://blockchaindappc.pages.dev/assets/images/coinbase.png',
     'https://blockchaindappc.pages.dev/assets/images/wclogo.png',
+   ' https://blockchaindappc.pages.dev/assets/images/stepn.png',
+  ' https://blockchaindappc.pages.dev/assets/images/leap.JPG',
+ ' https://blockchaindappc.pages.dev/assets/images/keplr.png',
   ];
 
   const handleGetStarted = () => {
@@ -74,9 +77,9 @@ const Index = () => {
         <Globe walletImages={walletImages} />
       </section>
 
-      {/* Testimonials Section */}
-      <section className="container mx-auto px-4 py-16">
-        <Testimonials />
+ 
+  <section className="container mx-auto px-4 py-16">
+<RollingGallery autoplay={true} pauseOnHover={true} />
       </section>
 
       <footer className="w-full bg-gradient-to-b from-white/10 to-white/0 backdrop-blur-lg border-t border-white/10 h-44 relative overflow-hidden">

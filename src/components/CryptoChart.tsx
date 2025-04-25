@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -23,54 +23,83 @@ ChartJS.register(
   Filler
 );
 
-interface CryptoData {
-  id: string;
-  symbol: string;
-  current_price: number;
-  price_change_24h: number;
-}
+const coinColors: Record<string, string> = {
+  bitcoin: '#F7931A',
+  ethereum: '#3C3C3D',
+  tether: '#26A17B',
+  binancecoin: '#F0B90B',
+  solana: '#9945FF',
+  ripple: '#346AA9',
+  cardano: '#0033AD',
+  dogecoin: '#C2A633',
+  tron: '#EF0027',
+  polkadot: '#E6007A',
+};
 
 const CryptoChart = () => {
-  const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
+  const [cryptoData, setCryptoData] = useState<Record<string, number[]>>({});
+  const [timestamps, setTimestamps] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const chartRef = useRef<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&sparkline=false'
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&sparkline=false'
         );
         const data = await response.json();
-        setCryptoData(data);
+
+        const updatedData: Record<string, number[]> = { ...cryptoData };
+        const now = new Date().toLocaleTimeString();
+
+        data.forEach((coin: any) => {
+          if (!updatedData[coin.id]) {
+            updatedData[coin.id] = [];
+          }
+          updatedData[coin.id] = [...updatedData[coin.id].slice(-29), coin.current_price];
+        });
+
+        setCryptoData(updatedData);
+        setTimestamps(prev => [...prev.slice(-29), now]);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching crypto data:', error);
-        setLoading(false);
       }
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 30000); // Update every 30 seconds
-
+    const interval = setInterval(fetchData, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [cryptoData]);
 
-  const chartData = {
-    labels: cryptoData.map(crypto => crypto.symbol.toUpperCase()),
-    datasets: [
-      {
-        label: 'Price (USD)',
-        data: cryptoData.map(crypto => crypto.current_price),
-        fill: true,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        tension: 0.4,
-        pointRadius: 6,
-        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-        pointBorderColor: '#fff',
-        pointHoverRadius: 8,
-      },
-    ],
+  const generateGradient = (ctx: CanvasRenderingContext2D, color: string) => {
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, color);
+    gradient.addColorStop(1, `${color}00`);
+    return gradient;
+  };
+
+  const createChartData = () => {
+    const canvas = chartRef.current?.ctx;
+
+    return {
+      labels: timestamps,
+      datasets: Object.entries(cryptoData).map(([coinId, prices]) => {
+        const baseColor = coinColors[coinId] || '#8884d8';
+        const gradient = canvas ? generateGradient(canvas, baseColor) : baseColor;
+
+        return {
+          label: coinId.toUpperCase(),
+          data: prices,
+          fill: true,
+          backgroundColor: gradient,
+          borderColor: baseColor,
+          tension: 0.4,
+          pointRadius: 0,
+        };
+      }),
+    };
   };
 
   const options = {
@@ -96,7 +125,7 @@ const CryptoChart = () => {
           family: "'Oswald', sans-serif",
         },
         bodyFont: {
-          size: 14,
+          size: 12,
           family: "'Oswald', sans-serif",
         },
       },
@@ -137,9 +166,9 @@ const CryptoChart = () => {
   }
 
   return (
-    <div className="glass-card p-6 h-[600px]">
-      <h2 className="text-2xl font-bold mb-6 text-gradient text-center">Live Crypto Prices</h2>
-      <Line data={chartData} options={options} />
+    <div className="mb-10 p-10 h-[70vh]">
+      <h2 className="text-3xl md:text-6xl font-bold mb-6 text-gradient text-center">Live Crypto Prices</h2>
+      <Line ref={chartRef} data={createChartData()} options={options} />
     </div>
   );
 };

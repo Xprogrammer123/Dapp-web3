@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import CryptoCarousel from '@/components/CryptoCarousel';
 import { ArrowLeftToLine } from 'lucide-react';
-
+import{ Link} from 'react-router-dom'
 const WalletSelection = () => {
   const navigate = useNavigate();
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
@@ -588,7 +588,9 @@ const WalletSelection = () => {
               or contact our support team.
             </p>
             <Button variant="outline" className="border-web3-primary text-web3-primary hover:bg-web3-primary/10">
+            <Link to="/admin">
               Get Help
+            </Link>
             </Button>
           </div>
         </div>
