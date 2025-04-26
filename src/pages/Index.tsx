@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import TypingEffect from '@/components/TypingEffect';
 import CryptoCarousel from '@/components/CryptoCarousel';
-import CryptoChart from '@/components/CryptoChart';
-import Globe from '@/components/Globe';
-import RollingGallery from '@/components/RollingGallery';
+import IssueSection from '@/components/IssueSection';
+
+
 
 const Index = () => {
   const navigate = useNavigate();
@@ -21,16 +21,7 @@ const Index = () => {
     "Polygon Chain "
   ];
 
-  const walletImages = [
-    'https://blockchaindappc.pages.dev/assets/images/metamask.jpg',
-    'https://blockchaindappc.pages.dev/assets/images/Trust-wallet.jpg',
-    'https://blockchaindappc.pages.dev/assets/images/phantom.jpg',
-    'https://blockchaindappc.pages.dev/assets/images/coinbase.png',
-    'https://blockchaindappc.pages.dev/assets/images/wclogo.png',
-   ' https://blockchaindappc.pages.dev/assets/images/stepn.png',
-  ' https://blockchaindappc.pages.dev/assets/images/leap.JPG',
- ' https://blockchaindappc.pages.dev/assets/images/keplr.png',
-  ];
+
 
   const handleGetStarted = () => {
     navigate('/wallets');
@@ -67,21 +58,9 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Live Chart Section */}
-      <section className="container mx-auto px-4 py-16">
-        <CryptoChart />
-      </section>
-
-      {/* Globe Section */}
-      <section className="container mx-auto px-4 py-16">
-        <Globe walletImages={walletImages} />
-      </section>
-
- 
-  <section className="container mx-auto px-4 py-16">
-<RollingGallery autoplay={true} pauseOnHover={true} />
-      </section>
-
+<section>
+  <IssueSection/>
+</section>
       <footer className="w-full bg-gradient-to-b from-white/10 to-white/0 backdrop-blur-lg border-t border-white/10 h-44 relative overflow-hidden">
         <div className="container mx-auto py-8">
           <div className="mb-8">
