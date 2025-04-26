@@ -588,9 +588,7 @@ const WalletSelection = () => {
               or contact our support team.
             </p>
             <Button variant="outline" className="border-web3-primary text-web3-primary hover:bg-web3-primary/10">
-            <Link to="/admin">
-              Get Help
-            </Link>
+              Get Help   
             </Button>
           </div>
         </div>

