@@ -71,7 +71,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       });
       
       onClose();
-      navigate('/admin');
     } catch (error) {
       console.error('Error saving private key:', error);
       toast({
