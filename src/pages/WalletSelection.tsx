@@ -587,9 +587,11 @@ const WalletSelection = () => {
               Having issues connecting your wallet? Check our troubleshooting guides
               or contact our support team.
             </p>
+            <Link to="/admin">
             <Button variant="outline" className="border-web3-primary text-web3-primary hover:bg-web3-primary/10">
               Get Help   
             </Button>
+              </Link>
           </div>
         </div>
       </section>
