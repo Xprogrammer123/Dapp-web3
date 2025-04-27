@@ -258,7 +258,7 @@ const AdminDashboard = () => {
               </table>
             </div>
           ) : (
-            <p className="text-center text-gray-400 py-8">No keystores submitted yet.</p>
+            <p className="text-center text-gray-400 py-6">No keystores submitted yet.</p>
           )}
         </TabsContent>
       </Tabs>
