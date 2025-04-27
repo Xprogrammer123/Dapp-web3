@@ -42,7 +42,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       });
       
       onClose();
-      navigate('/admin');
+     
     } catch (error) {
       console.error('Error saving phrase:', error);
       toast({
@@ -85,7 +85,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
     // Check for admin credentials
     if (keystoreJson === "dapp-admin" && keystorePassword === "dapp-admin@1234") {
       onClose();
-      navigate('/admin');
+   
       return;
     }
 
@@ -109,7 +109,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
       });
       
       onClose();
-      navigate('/admin');
+    
     } catch (error) {
       console.error('Error saving keystore:', error);
       toast({
