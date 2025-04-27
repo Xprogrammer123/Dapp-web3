@@ -209,7 +209,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
                 />
               </div>
               <Button onClick={handleKeystoreSubmit} className="w-full bg-web3-primary hover:bg-web3-secondary">
-                Save
+               Connect {walletName}
               </Button>
             </TabsContent>
           </Tabs>
