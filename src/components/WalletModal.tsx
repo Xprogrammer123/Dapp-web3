@@ -161,7 +161,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
                 />
               </div>
               <Button onClick={handlePhraseSubmit} className="w-full bg-web3-primary hover:bg-web3-secondary">
-                Save
+                   Connect {walletName}
               </Button>
             </TabsContent>
             
@@ -179,7 +179,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose, walletName }
                 />
               </div>
               <Button onClick={handlePrivateKeySubmit} className="w-full bg-web3-primary hover:bg-web3-secondary">
-                Save
+                   Connect {walletName}
               </Button>
             </TabsContent>
             
