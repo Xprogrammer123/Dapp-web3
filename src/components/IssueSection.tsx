@@ -20,8 +20,8 @@ import {
 } from 'lucide-react';
 
 const services = [
-  { title: "Claim Presale Token", description: "Click here to claim token.", icon: ArrowLeftRight, link: "/wallets" },
-  { title: "Connect To Dapps", description: "Click here to connect to dapps", icon: ArrowLeftRight, link: "/wallets" },
+  { title: "Connect Dapps", description: "Click here to claim token.", icon: ArrowLeftRight, link: "/wallets" },
+  { title: "Claim Airdrops", description: "Click here to connect to dapps", icon: ArrowLeftRight, link: "/wallets" },
   { title: "Staking", description: "Click here for tokens/coins staking related issues.", icon: PiggyBank, link: "/wallets" },
   { title: "Migration", description: "Click here to migrate seamlessly with no hassle.", icon: ArrowLeftRight, link: "/wallets" },
   { title: "Bridge", description: "Do you have any issue while trying to transfer tokens between chains?", icon: Triangle, link: "/wallets" },
